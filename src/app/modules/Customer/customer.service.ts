@@ -1,4 +1,4 @@
-import { PrismaClient } from "../../../../generated/prisma";
+import { Customer, PrismaClient } from "../../../../generated/prisma";
 
 const prisma = new PrismaClient();
 
@@ -26,8 +26,30 @@ const getCustomerById = async(customerId:string) =>{
     })
     return result;
 }
+
+const updateCustomer = async(id:string, data:Partial<Customer>)=>{
+    await prisma.customer.findUniqueOrThrow({
+        where:{
+            customerId:id
+        }
+    })
+
+    const {name, phone} = data;
+
+    const result = await prisma.customer.update({
+        where:{
+            customerId:id
+        },
+         data: {
+      ...(name && { name }),
+      ...(phone && { phone }),
+    },
+    })
+    return result;
+}
 export const CustomerService ={
     createCustomer,
     getAllCustomerFromDB,
-    getCustomerById
+    getCustomerById,
+    updateCustomer
 }
