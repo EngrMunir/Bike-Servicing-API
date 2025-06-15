@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { CustomerService } from "./customer.service";
 
+
 const createCustomer = async (req:Request, res:Response) =>{
     try {
         const result = await CustomerService.createCustomer(req.body);
@@ -38,8 +39,29 @@ const getAllCustomerFromDB = async(req:Request, res:Response) =>{
     }
 }
 
+const getCustomerById = async(req:Request, res:Response) =>{
+    const {id} = req.params;
+    console.log(id);
+    try {
+        const result = await CustomerService.getCustomerById(id);
+
+         res.status(200).json({
+            success:true,
+            message:"Customer fetched successfully",
+            data:result
+
+        })
+    } catch (err) {
+         res.status(500).json({
+            success:false,
+            message:err?.name || "Something went wrong",
+            error:err
+        })
+    }
+}
 
 export const CustomerController = {
     createCustomer,
     getAllCustomerFromDB,
+    getCustomerById
 }
