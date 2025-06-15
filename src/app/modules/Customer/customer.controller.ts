@@ -78,9 +78,27 @@ const updateCustomer = async (req:Request, res:Response) =>{
     }
 }
 
+const deleteCustomer = async(req:Request, res:Response) =>{
+    const {id} = req.params;
+    console.log(id);
+    try {
+         await CustomerService.deleteCustomer(id);
+         res.status(200).json({
+            success:true,
+            message:"Customer deleted successfully",
+        })
+    } catch (err) {
+         res.status(500).json({
+            success:false,
+            message:err?.name || "Something went wrong",
+            error:err
+        })
+    }
+}
 export const CustomerController = {
     createCustomer,
     getAllCustomerFromDB,
     getCustomerById,
-    updateCustomer
+    updateCustomer,
+    deleteCustomer
 }

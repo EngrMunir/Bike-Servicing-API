@@ -47,9 +47,19 @@ const updateCustomer = async(id:string, data:Partial<Customer>)=>{
     })
     return result;
 }
+
+const deleteCustomer = async(id:string)=>{
+    const result = await prisma.customer.delete({
+        where:{
+            customerId:id
+        }
+    })
+    return result;
+}
 export const CustomerService ={
     createCustomer,
     getAllCustomerFromDB,
     getCustomerById,
-    updateCustomer
+    updateCustomer,
+    deleteCustomer
 }
