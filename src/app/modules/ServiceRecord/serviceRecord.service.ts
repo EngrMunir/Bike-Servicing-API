@@ -14,7 +14,31 @@ const getAllServiceFromDB = async()=>{
     return result;
 };
 
+const getServiceById = async(id:string)=>{
+    const result = await prisma.serviceRecord.findUnique({
+        where:{
+            serviceId:id
+        }
+    });
+    return result;
+};
+
+const completeService = async (id: string, completionDate?: Date) => {
+  const result = await prisma.serviceRecord.update({
+    where: { serviceId: id },
+    data: {
+      status: "done",
+      completionDate: completionDate || new Date(),
+    },
+  });
+  return result;
+};
+
+
+
 export const RecordService ={
     createService,
-    getAllServiceFromDB
+    getAllServiceFromDB,
+    getServiceById,
+    completeService
 }
