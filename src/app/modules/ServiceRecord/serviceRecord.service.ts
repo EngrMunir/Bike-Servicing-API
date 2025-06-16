@@ -7,8 +7,14 @@ const createService = async(data:any)=>{
         data
     });
     return result;
-}
+};
+
+const getAllServiceFromDB = async()=>{
+    const result = await prisma.serviceRecord.findMany();
+    return result;
+};
 
 export const RecordService ={
-    createService
+    createService,
+    getAllServiceFromDB
 }
